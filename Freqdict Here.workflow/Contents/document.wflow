@@ -71,12 +71,13 @@ OUTPUT=$(uv run "$HOME/.local/share/freqdict/freqdict.py" . 2&gt;&amp;1)
 EXIT_CODE=$?
 
 if [ $EXIT_CODE -eq 0 ]; then
-    LAST_LINE=$(echo "$OUTPUT" | tail -1)
-    osascript -e "display notification \"$LAST_LINE\" with title \"Freqdict\" sound name \"Glass\""
+    osascript -e "display notification \"Done!\" with title \"Freqdict\" sound name \"Glass\""
     open -R frequency_dict.csv
     open frequency_dict.csv
 else
-    osascript -e "display alert \"Freqdict Error\" message \"$OUTPUT\" as critical"
+    echo "$OUTPUT" &gt; /tmp/freqdict_error.log
+    osascript -e "display alert \"Freqdict Error\" message \"See /tmp/freqdict_error.log for details\" as critical"
+    open /tmp/freqdict_error.log
 fi</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
