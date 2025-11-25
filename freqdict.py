@@ -45,10 +45,15 @@ def extract_text_from_doc(path: Path) -> str:
     result = subprocess.run(
         ["antiword", str(path)],
         capture_output=True,
-        text=True,
         check=True,
     )
-    return result.stdout
+    # Try common encodings for .doc files
+    for encoding in ("utf-8", "cp1251", "latin-1"):
+        try:
+            return result.stdout.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return result.stdout.decode("latin-1")
 
 
 def extract_text(path: Path) -> str:
