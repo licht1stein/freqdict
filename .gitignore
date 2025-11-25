@@ -1,0 +1,13 @@
+# Output
+frequency_dict.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# direnv
+.direnv/
+
+# macOS
+.DS_Store
