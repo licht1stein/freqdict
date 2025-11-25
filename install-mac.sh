@@ -1,12 +1,13 @@
 #!/bin/bash
 # Freqdict installer for macOS
-# Run: bash install-mac.sh
+# Run: curl -fsSL https://raw.githubusercontent.com/licht1stein/freqdict/main/install-mac.sh | sh
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_URL="https://raw.githubusercontent.com/licht1stein/freqdict/main"
 INSTALL_DIR="$HOME/.local/share/freqdict"
 WORKFLOW_DIR="$HOME/Library/Services"
+WORKFLOW_NAME="Freqdict Here.workflow"
 
 echo "Installing Freqdict..."
 
@@ -23,15 +24,20 @@ if ! command -v uv &> /dev/null; then
     fi
 fi
 
-# Copy freqdict.py
-echo "Installing freqdict.py to $INSTALL_DIR..."
+# Download freqdict.py
+echo "Downloading freqdict.py..."
 mkdir -p "$INSTALL_DIR"
-cp "$SCRIPT_DIR/freqdict.py" "$INSTALL_DIR/"
+curl -fsSL "$REPO_URL/freqdict.py" -o "$INSTALL_DIR/freqdict.py"
 
-# Install workflow
+# Create workflow directory structure
 echo "Installing Finder Quick Action..."
-mkdir -p "$WORKFLOW_DIR"
-cp -R "$SCRIPT_DIR/Freqdict Here.workflow" "$WORKFLOW_DIR/"
+mkdir -p "$WORKFLOW_DIR/$WORKFLOW_NAME/Contents"
+
+# Download workflow files
+curl -fsSL "$REPO_URL/Freqdict%20Here.workflow/Contents/Info.plist" \
+    -o "$WORKFLOW_DIR/$WORKFLOW_NAME/Contents/Info.plist"
+curl -fsSL "$REPO_URL/Freqdict%20Here.workflow/Contents/document.wflow" \
+    -o "$WORKFLOW_DIR/$WORKFLOW_NAME/Contents/document.wflow"
 
 echo ""
 echo "Done! Right-click any folder in Finder and select:"
