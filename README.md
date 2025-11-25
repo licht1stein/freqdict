@@ -15,6 +15,11 @@ Build a word frequency dictionary from your texts with Russian lemmatization.
 curl -fsSL https://raw.githubusercontent.com/licht1stein/freqdict/master/install-mac.sh | sh
 ```
 
+The install script will:
+1. Install [uv](https://docs.astral.sh/uv/) (Python package runner) if not present
+2. Download `freqdict.py` to `~/.local/share/freqdict/`
+3. Install a Finder Quick Action to `~/Library/Services/`
+
 After installation, right-click any folder in Finder and select:
 **Quick Actions → Freqdict Here**
 
