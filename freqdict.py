@@ -13,6 +13,8 @@ Usage: uv run freqdict.py <file_or_directory> [...]
 
 import csv
 import re
+import shutil
+import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -20,7 +22,7 @@ from pathlib import Path
 import pymorphy3
 from docx import Document
 
-SUPPORTED_EXTENSIONS = {".txt", ".md", ".docx"}
+SUPPORTED_EXTENSIONS = {".txt", ".md", ".docx", ".doc"}
 WORD_PATTERN = re.compile(r"[а-яёА-ЯЁa-zA-Z]+")
 
 
@@ -33,12 +35,30 @@ def extract_text_from_docx(path: Path) -> str:
     return "\n".join(paragraph.text for paragraph in doc.paragraphs)
 
 
+def extract_text_from_doc(path: Path) -> str:
+    """Extract text from legacy .doc files using antiword."""
+    if not shutil.which("antiword"):
+        raise RuntimeError(
+            f"Cannot read {path.name}: antiword not installed.\n"
+            "Install with: brew install antiword (macOS) or apt install antiword (Linux)"
+        )
+    result = subprocess.run(
+        ["antiword", str(path)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout
+
+
 def extract_text(path: Path) -> str:
     ext = path.suffix.lower()
     if ext in {".txt", ".md"}:
         return extract_text_from_txt(path)
     elif ext == ".docx":
         return extract_text_from_docx(path)
+    elif ext == ".doc":
+        return extract_text_from_doc(path)
     else:
         raise ValueError(f"Unsupported file type: {ext}")
 
@@ -98,7 +118,7 @@ def main() -> None:
     files = find_files(input_paths)
 
     if not files:
-        print("No supported files found (.txt, .md, .docx)", file=sys.stderr)
+        print("No supported files found (.txt, .md, .doc, .docx)", file=sys.stderr)
         sys.exit(1)
 
     print(f"Found {len(files)} file(s)", file=sys.stderr)

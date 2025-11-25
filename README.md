@@ -4,7 +4,7 @@ Build a word frequency dictionary from your texts with Russian lemmatization.
 
 ## Features
 
-- Supports `.txt`, `.md`, `.docx` files
+- Supports `.txt`, `.md`, `.doc`, `.docx` files
 - Russian lemmatization (pymorphy3)
 - Recursively processes directories
 - Exports to CSV
@@ -17,8 +17,9 @@ curl -fsSL https://raw.githubusercontent.com/licht1stein/freqdict/v0.5/install-m
 
 The install script will:
 1. Install [uv](https://docs.astral.sh/uv/) (Python package runner) if not present
-2. Download `freqdict.py` to `~/.local/share/freqdict/`
-3. Install a Finder Quick Action to `~/Library/Services/`
+2. Install [antiword](http://www.winfield.demon.nl/) via Homebrew (for `.doc` support)
+3. Download `freqdict.py` to `~/.local/share/freqdict/`
+4. Install a Finder Quick Action to `~/Library/Services/`
 
 After installation, right-click any folder in Finder and select:
 **Quick Actions → Freqdict Here**

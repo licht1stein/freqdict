@@ -24,6 +24,12 @@ if ! command -v uv &> /dev/null; then
     fi
 fi
 
+# Install antiword for .doc support
+if ! command -v antiword &> /dev/null; then
+    echo "Installing antiword (for .doc file support)..."
+    brew install antiword
+fi
+
 # Download freqdict.py
 echo "Downloading freqdict.py..."
 mkdir -p "$INSTALL_DIR"
