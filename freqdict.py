@@ -25,6 +25,29 @@ from docx import Document
 SUPPORTED_EXTENSIONS = {".txt", ".md", ".docx", ".doc"}
 WORD_PATTERN = re.compile(r"[а-яёА-ЯЁa-zA-Z]+")
 
+# Russian stopwords (prepositions, conjunctions, particles, pronouns)
+STOPWORDS = {
+    # Prepositions
+    "в", "на", "с", "к", "из", "у", "о", "от", "по", "за", "для", "до", "без",
+    "при", "через", "над", "под", "между", "про", "об", "перед", "около",
+    # Conjunctions
+    "и", "а", "но", "или", "да", "либо", "то", "ни", "что", "чтобы", "если",
+    "когда", "как", "потому", "поэтому", "хотя", "однако", "также", "тоже",
+    # Particles
+    "не", "бы", "же", "ли", "вот", "даже", "уже", "ещё", "еще", "только",
+    "лишь", "именно", "ведь", "разве", "неужели", "пусть", "пускай",
+    # Pronouns
+    "я", "ты", "он", "она", "оно", "мы", "вы", "они", "себя", "свой",
+    "мой", "твой", "наш", "ваш", "его", "её", "их", "этот", "тот", "такой",
+    "какой", "который", "чей", "весь", "сам", "самый", "каждый", "любой",
+    "другой", "иной", "некоторый", "никакой", "ничей",
+    # Common verbs (auxiliary)
+    "быть", "мочь", "хотеть", "должный", "стать", "являться",
+    # Other common words
+    "это", "так", "там", "тут", "здесь", "где", "куда", "откуда", "почему",
+    "зачем", "очень", "можно", "нужно", "надо", "нет", "есть", "был", "будет",
+}
+
 
 def extract_text_from_txt(path: Path) -> str:
     return path.read_text(encoding="utf-8")
@@ -90,8 +113,13 @@ def tokenize(text: str) -> list[str]:
 
 
 def lemmatize(words: list[str], morph: pymorphy3.MorphAnalyzer) -> list[str]:
-    """Lemmatize words using pymorphy3."""
-    return [morph.parse(word)[0].normal_form for word in words]
+    """Lemmatize words using pymorphy3, filtering out stopwords."""
+    lemmas = []
+    for word in words:
+        lemma = morph.parse(word)[0].normal_form
+        if lemma not in STOPWORDS:
+            lemmas.append(lemma)
+    return lemmas
 
 
 def build_frequency_dict(files: list[Path]) -> Counter:
