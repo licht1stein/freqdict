@@ -47,13 +47,17 @@ def extract_text_from_doc(path: Path) -> str:
         capture_output=True,
         check=True,
     )
-    # Try common encodings for .doc files
-    for encoding in ("utf-8", "cp1251", "latin-1"):
+    # Try cp1251 first (Windows Cyrillic), then UTF-8
+    for encoding in ("cp1251", "utf-8"):
         try:
-            return result.stdout.decode(encoding)
+            text = result.stdout.decode(encoding)
+            # Validate: if we expect Cyrillic, check it's there
+            if any("\u0400" <= c <= "\u04ff" for c in text[:1000]):
+                return text
         except UnicodeDecodeError:
             continue
-    return result.stdout.decode("latin-1")
+    # Fallback
+    return result.stdout.decode("cp1251", errors="replace")
 
 
 def extract_text(path: Path) -> str:
