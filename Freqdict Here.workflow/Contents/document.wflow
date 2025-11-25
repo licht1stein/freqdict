@@ -44,12 +44,7 @@
 FOLDER="$1"
 
 # Open Terminal and run freqdict
-osascript &lt;&lt;EOF
-tell application "Terminal"
-    activate
-    do script "cd \"$FOLDER\" &amp;&amp; export PATH=\"\$HOME/.local/bin:\$PATH\" &amp;&amp; echo 'Running freqdict on: $FOLDER' &amp;&amp; echo '' &amp;&amp; uv run \"\$HOME/.local/share/freqdict/freqdict.py\" . &amp;&amp; echo '' &amp;&amp; echo 'Done! Opening frequency_dict.csv...' &amp;&amp; open frequency_dict.csv || echo 'Error: Check output above'"
-end tell
-EOF
+osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$FOLDER' &amp;&amp; export PATH=\\\"\\$HOME/.local/bin:\\$PATH\\\" &amp;&amp; echo 'Running freqdict...' &amp;&amp; uv run \\\"\\$HOME/.local/share/freqdict/freqdict.py\\\" . &amp;&amp; echo 'Done!' &amp;&amp; open frequency_dict.csv\"" -e "end tell"
 </string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
