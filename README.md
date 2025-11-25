@@ -4,7 +4,7 @@ Build a word frequency dictionary from your texts with Russian lemmatization.
 
 ## Features
 
-- Supports `.txt`, `.md`, `.doc`, `.docx` files
+- Supports `.txt`, `.md`, `.org`, `.doc`, `.docx` files
 - Russian lemmatization (pymorphy3)
 - Recursively processes directories
 - Exports to CSV

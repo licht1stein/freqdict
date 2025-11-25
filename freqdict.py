@@ -23,7 +23,7 @@ import pymorphy3
 from docx import Document
 
 VERSION = "0.11"
-SUPPORTED_EXTENSIONS = {".txt", ".md", ".docx", ".doc"}
+SUPPORTED_EXTENSIONS = {".txt", ".md", ".org", ".docx", ".doc"}
 WORD_PATTERN = re.compile(r"[а-яёА-ЯЁa-zA-Z]+")
 
 # Russian stopwords (prepositions, conjunctions, particles, pronouns)
@@ -83,7 +83,7 @@ def extract_text_from_doc(path: Path) -> str:
 
 def extract_text(path: Path) -> str:
     ext = path.suffix.lower()
-    if ext in {".txt", ".md"}:
+    if ext in {".txt", ".md", ".org"}:
         return extract_text_from_txt(path)
     elif ext == ".docx":
         return extract_text_from_docx(path)
@@ -157,7 +157,7 @@ def main() -> None:
     files = find_files(input_paths)
 
     if not files:
-        print("No supported files found (.txt, .md, .doc, .docx)", file=sys.stderr)
+        print("No supported files found (.txt, .md, .org, .doc, .docx)", file=sys.stderr)
         sys.exit(1)
 
     print(f"Found {len(files)} file(s)", file=sys.stderr)
