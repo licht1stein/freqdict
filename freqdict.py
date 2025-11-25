@@ -51,7 +51,13 @@ STOPWORDS = {
 
 
 def extract_text_from_txt(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
+    """Extract text from txt/md files, trying multiple encodings."""
+    for encoding in ("utf-8", "cp1251"):
+        try:
+            return path.read_text(encoding=encoding)
+        except UnicodeDecodeError:
+            continue
+    return path.read_text(encoding="cp1251", errors="replace")
 
 
 def extract_text_from_docx(path: Path) -> str:
