@@ -65,22 +65,13 @@ def extract_text_from_doc(path: Path) -> str:
             f"Cannot read {path.name}: antiword not installed.\n"
             "Install with: brew install antiword (macOS) or apt install antiword (Linux)"
         )
+    # Use UTF-8 mapping to properly handle Cyrillic and other non-Latin text
     result = subprocess.run(
-        ["antiword", str(path)],
+        ["antiword", "-m", "UTF-8.txt", str(path)],
         capture_output=True,
         check=True,
     )
-    # Try cp1251 first (Windows Cyrillic), then UTF-8
-    for encoding in ("cp1251", "utf-8"):
-        try:
-            text = result.stdout.decode(encoding)
-            # Validate: if we expect Cyrillic, check it's there
-            if any("\u0400" <= c <= "\u04ff" for c in text[:1000]):
-                return text
-        except UnicodeDecodeError:
-            continue
-    # Fallback
-    return result.stdout.decode("cp1251", errors="replace")
+    return result.stdout.decode("utf-8")
 
 
 def extract_text(path: Path) -> str:
