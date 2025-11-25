@@ -42,37 +42,14 @@
 					<string>#!/bin/bash
 
 FOLDER="$1"
-cd "$FOLDER" || exit 1
 
-# Check if uv is installed
-if ! command -v uv &amp;&gt; /dev/null; then
-    # Try common install locations
-    if [ -f "$HOME/.local/bin/uv" ]; then
-        export PATH="$HOME/.local/bin:$PATH"
-    elif [ -f "$HOME/.cargo/bin/uv" ]; then
-        export PATH="$HOME/.cargo/bin:$PATH"
-    else
-        osascript -e 'display dialog "uv is not installed.\n\nPlease install it by running:\ncurl -LsSf https://astral.sh/uv/install.sh | sh\n\nThen try again." buttons {"OK"} default button "OK" with title "Freqdict" with icon stop'
-        exit 1
-    fi
-fi
-
-# Check freqdict.py is installed
-SCRIPT_PATH="$HOME/.local/share/freqdict/freqdict.py"
-if [ ! -f "$SCRIPT_PATH" ]; then
-    osascript -e 'display dialog "freqdict.py not found.\n\nPlease run install-mac.sh first." buttons {"OK"} default button "OK" with title "Freqdict" with icon stop'
-    exit 1
-fi
-
-# Run freqdict
-OUTPUT="$FOLDER/frequency_dict.csv"
-uv run "$SCRIPT_PATH" "$FOLDER" 2&gt;&amp;1
-
-if [ -f "$OUTPUT" ]; then
-    open "$OUTPUT"
-else
-    osascript -e 'display dialog "No output file was created.\n\nMake sure the folder contains .txt, .md, or .docx files." buttons {"OK"} default button "OK" with title "Freqdict" with icon caution'
-fi
+# Open Terminal and run freqdict
+osascript &lt;&lt;EOF
+tell application "Terminal"
+    activate
+    do script "cd \"$FOLDER\" &amp;&amp; export PATH=\"\$HOME/.local/bin:\$PATH\" &amp;&amp; echo 'Running freqdict on: $FOLDER' &amp;&amp; echo '' &amp;&amp; uv run \"\$HOME/.local/share/freqdict/freqdict.py\" . &amp;&amp; echo '' &amp;&amp; echo 'Done! Opening frequency_dict.csv...' &amp;&amp; open frequency_dict.csv || echo 'Error: Check output above'"
+end tell
+EOF
 </string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
