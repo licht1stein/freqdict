@@ -62,12 +62,22 @@
 					<string>#!/bin/bash
 
 FOLDER="$1"
+export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH"
+export LANG=en_US.UTF-8
 
-# Open Terminal and run freqdict
-osascript -e "tell application \"Terminal\"" \
-  -e "activate" \
-  -e "do script \"cd '$FOLDER' &amp;&amp; export PATH=\\\"\$HOME/.local/bin:\$PATH\\\" &amp;&amp; echo 'Running freqdict...' &amp;&amp; uv run \\\"\$HOME/.local/share/freqdict/freqdict.py\\\" . &amp;&amp; echo 'Done!' &amp;&amp; open frequency_dict.csv\"" \
-  -e "end tell"</string>
+cd "$FOLDER"
+
+OUTPUT=$(uv run "$HOME/.local/share/freqdict/freqdict.py" . 2&gt;&amp;1)
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 0 ]; then
+    LAST_LINE=$(echo "$OUTPUT" | tail -1)
+    osascript -e "display notification \"$LAST_LINE\" with title \"Freqdict\" sound name \"Glass\""
+    open -R frequency_dict.csv
+    open frequency_dict.csv
+else
+    osascript -e "display alert \"Freqdict Error\" message \"$OUTPUT\" as critical"
+fi</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
