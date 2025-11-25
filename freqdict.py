@@ -104,6 +104,8 @@ def find_files(paths: list[Path]) -> list[Path]:
         elif path.is_dir():
             for ext in SUPPORTED_EXTENSIONS:
                 files.extend(path.rglob(f"*{ext}"))
+    # Filter out Word temp/lock files (e.g., ~$document.doc)
+    files = [f for f in files if not f.name.startswith("~$")]
     return sorted(set(files))
 
 
