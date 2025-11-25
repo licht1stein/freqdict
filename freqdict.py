@@ -22,6 +22,7 @@ from pathlib import Path
 import pymorphy3
 from docx import Document
 
+VERSION = "0.10"
 SUPPORTED_EXTENSIONS = {".txt", ".md", ".docx", ".doc"}
 WORD_PATTERN = re.compile(r"[а-яёА-ЯЁa-zA-Z]+")
 
@@ -140,6 +141,8 @@ def write_csv(counter: Counter, output_path: Path) -> None:
 
 
 def main() -> None:
+    print(f"Freqdict v{VERSION}", file=sys.stderr)
+
     if len(sys.argv) < 2:
         print("Usage: uv run freqdict.py <file_or_directory> [...]", file=sys.stderr)
         sys.exit(1)

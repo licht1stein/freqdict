@@ -14,30 +14,40 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-FILES_TO_UPDATE = [
-    ROOT / "README.md",
-    ROOT / "install-mac.sh",
-]
 
-VERSION_PATTERN = re.compile(r"(freqdict/v)(\d+\.\d+)")
+# Pattern for URLs in README.md and install-mac.sh
+URL_VERSION_PATTERN = re.compile(r"(freqdict/v)(\d+\.\d+)")
+# Pattern for VERSION constant in freqdict.py
+CONST_VERSION_PATTERN = re.compile(r'(VERSION = ")(\d+\.\d+)(")')
 
 
 def get_current_version() -> str | None:
-    """Get current version from README.md."""
-    readme = ROOT / "README.md"
-    match = VERSION_PATTERN.search(readme.read_text())
+    """Get current version from freqdict.py."""
+    script = ROOT / "freqdict.py"
+    match = CONST_VERSION_PATTERN.search(script.read_text())
     return match.group(2) if match else None
 
 
 def update_version_in_files(new_version: str) -> list[Path]:
     """Update version in all files. Returns list of modified files."""
     modified = []
-    for path in FILES_TO_UPDATE:
+
+    # Update VERSION constant in freqdict.py
+    script = ROOT / "freqdict.py"
+    content = script.read_text()
+    new_content = CONST_VERSION_PATTERN.sub(rf'\g<1>{new_version}\g<3>', content)
+    if new_content != content:
+        script.write_text(new_content)
+        modified.append(script)
+
+    # Update URLs in README.md and install-mac.sh
+    for path in [ROOT / "README.md", ROOT / "install-mac.sh"]:
         content = path.read_text()
-        new_content = VERSION_PATTERN.sub(rf"\g<1>{new_version}", content)
+        new_content = URL_VERSION_PATTERN.sub(rf"\g<1>{new_version}", content)
         if new_content != content:
             path.write_text(new_content)
             modified.append(path)
+
     return modified
 
 
