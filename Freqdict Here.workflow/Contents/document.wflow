@@ -30,30 +30,18 @@
 				<array>
 					<string>Automator</string>
 				</array>
-				<key>AMCategory</key>
-				<string>AMCategoryUtilities</string>
-				<key>AMIconName</key>
-				<string>Run Shell Script</string>
-				<key>AMName</key>
-				<string>Run Shell Script</string>
-				<key>AMParameters</key>
+				<key>AMParameterProperties</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>#!/bin/bash
-
-FOLDER="$1"
-
-# Open Terminal and run freqdict
-osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$FOLDER' &amp;&amp; export PATH=\\\"\\$HOME/.local/bin:\\$PATH\\\" &amp;&amp; echo 'Running freqdict...' &amp;&amp; uv run \\\"\\$HOME/.local/share/freqdict/freqdict.py\\\" . &amp;&amp; echo 'Done!' &amp;&amp; open frequency_dict.csv\"" -e "end tell"
-</string>
+					<dict/>
 					<key>CheckedForUserDefaultShell</key>
-					<true/>
+					<dict/>
 					<key>inputMethod</key>
-					<integer>1</integer>
+					<dict/>
 					<key>shell</key>
-					<string>/bin/bash</string>
+					<dict/>
 					<key>source</key>
-					<string></string>
+					<dict/>
 				</dict>
 				<key>AMProvides</key>
 				<dict>
@@ -64,14 +52,31 @@ osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$
 						<string>com.apple.cocoa.string</string>
 					</array>
 				</dict>
-				<key>AMRequiredResources</key>
-				<array/>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
 				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
-				<dict/>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<string>#!/bin/bash
+
+FOLDER="$1"
+
+# Open Terminal and run freqdict
+osascript -e "tell application \"Terminal\"" \
+  -e "activate" \
+  -e "do script \"cd '$FOLDER' &amp;&amp; export PATH=\\\"\$HOME/.local/bin:\$PATH\\\" &amp;&amp; echo 'Running freqdict...' &amp;&amp; uv run \\\"\$HOME/.local/share/freqdict/freqdict.py\\\" . &amp;&amp; echo 'Done!' &amp;&amp; open frequency_dict.csv\"" \
+  -e "end tell"</string>
+					<key>CheckedForUserDefaultShell</key>
+					<true/>
+					<key>inputMethod</key>
+					<integer>1</integer>
+					<key>shell</key>
+					<string>/bin/bash</string>
+					<key>source</key>
+					<string></string>
+				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.RunShellScript</string>
 				<key>CFBundleVersion</key>
@@ -109,7 +114,7 @@ osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$
 					<key>0</key>
 					<dict>
 						<key>default value</key>
-						<integer>1</integer>
+						<integer>0</integer>
 						<key>name</key>
 						<string>inputMethod</string>
 						<key>required</key>
@@ -122,9 +127,9 @@ osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -135,9 +140,9 @@ osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -175,7 +180,7 @@ osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>529.000000:253.000000</string>
+				<string>309.000000:305.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -187,12 +192,39 @@ osascript -e "tell application \"Terminal\"" -e "activate" -e "do script \"cd '$
 	<dict/>
 	<key>workflowMetaData</key>
 	<dict>
-		<key>serviceInputTypeIdentifier</key>
+		<key>applicationBundleID</key>
+		<string>com.apple.finder</string>
+		<key>applicationBundleIDsByPath</key>
+		<dict>
+			<key>/System/Library/CoreServices/Finder.app</key>
+			<string>com.apple.finder</string>
+		</dict>
+		<key>applicationPath</key>
+		<string>/System/Library/CoreServices/Finder.app</string>
+		<key>applicationPaths</key>
+		<array>
+			<string>/System/Library/CoreServices/Finder.app</string>
+		</array>
+		<key>inputTypeIdentifier</key>
 		<string>com.apple.Automator.fileSystemObject.folder</string>
+		<key>outputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>presentationMode</key>
+		<integer>15</integer>
+		<key>processesInput</key>
+		<integer>0</integer>
 		<key>serviceApplicationBundleID</key>
 		<string>com.apple.finder</string>
+		<key>serviceApplicationPath</key>
+		<string>/System/Library/CoreServices/Finder.app</string>
+		<key>serviceInputTypeIdentifier</key>
+		<string>com.apple.Automator.fileSystemObject.folder</string>
+		<key>serviceOutputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
 		<key>serviceProcessesInput</key>
 		<integer>0</integer>
+		<key>useAutomaticInputType</key>
+		<false/>
 		<key>workflowTypeIdentifier</key>
 		<string>com.apple.Automator.servicesMenu</string>
 	</dict>
