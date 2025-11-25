@@ -22,7 +22,7 @@ from pathlib import Path
 import pymorphy3
 from docx import Document
 
-VERSION = "0.12"
+VERSION = "0.13"
 SUPPORTED_EXTENSIONS = {".txt", ".md", ".org", ".docx", ".doc"}
 WORD_PATTERN = re.compile(r"[а-яёА-ЯЁa-zA-Z]+")
 

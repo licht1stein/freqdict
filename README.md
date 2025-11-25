@@ -12,7 +12,7 @@ Build a word frequency dictionary from your texts with Russian lemmatization.
 ## macOS Installation (one-liner)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/licht1stein/freqdict/v0.12/install-mac.sh | sh
+curl -fsSL https://raw.githubusercontent.com/licht1stein/freqdict/v0.13/install-mac.sh | sh
 ```
 
 The install script will:
