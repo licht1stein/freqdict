@@ -1,10 +1,10 @@
 #!/bin/bash
 # Freqdict installer for macOS
-# Run: curl -fsSL https://raw.githubusercontent.com/licht1stein/freqdict/main/install-mac.sh | sh
+# Run: curl -fsSL https://raw.githubusercontent.com/licht1stein/freqdict/master/install-mac.sh | sh
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/licht1stein/freqdict/main"
+REPO_URL="https://raw.githubusercontent.com/licht1stein/freqdict/master"
 INSTALL_DIR="$HOME/.local/share/freqdict"
 WORKFLOW_DIR="$HOME/Library/Services"
 WORKFLOW_NAME="Freqdict Here.workflow"
